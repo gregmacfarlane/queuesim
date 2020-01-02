@@ -9,6 +9,10 @@ public class Main {
 
     // When we run the class, this gets executed.
     public static void main(String[] args) {
-        log.info("The message to print is `" + myString + "`");
+
+        // Create a new random arrival distribution
+        PoissonArrival pa1 = new PoissonArrival(1, 1);
+        log.info("The next random number is: " + pa1.nextRandom());
+
     }
 }
