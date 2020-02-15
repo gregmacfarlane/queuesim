@@ -15,6 +15,8 @@ public class Simulator {
     private double t = 0;
     private double endtime = 50;
 
+    private ServiceCenter sc;
+
     /**
      * Instantiate an object of the simulator class with a given M/M/N (Inf, FIFO)
      * @param lambda Arrival rate
@@ -27,6 +29,7 @@ public class Simulator {
         log.info("Creating service distribution");
         serviceTime = new PoissonArrival(mu, r);
 
+        this.sc = new ServiceCenter(N);
     }
 
     /**
@@ -46,6 +49,7 @@ public class Simulator {
                 case Event.ARRIVAL: {
                     // Create a customer and add them to the counter or the queue
                     Customer customer = new Customer(serviceTime.nextArrival());
+
 
                     // Schedule next arrival
                     fel.addEvent(new Event(Event.ARRIVAL, t + arrivalTime.nextArrival()));
