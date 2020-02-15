@@ -16,9 +16,20 @@ public class FutureEventList {
         eventVector = new Vector<>();
     }
 
-
+    /**
+     * Add a new event to the proper place in the vector
+     * @param event
+     */
     public void addEvent(Event event) {
+        int insertIndex = 0;
 
+        // Find the right place to add the event
+        while(insertIndex < eventVector.size()) {
+            Event e = eventVector.elementAt(insertIndex);
+            if (e.getTime() > event.getTime()) break;
+            insertIndex++;
+        }
+        eventVector.insertElementAt(event, insertIndex);
     }
 
     /**
