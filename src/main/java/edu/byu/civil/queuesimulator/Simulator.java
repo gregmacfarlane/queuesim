@@ -12,6 +12,7 @@ public class Simulator {
     private PoissonArrival serviceTime;
 
     private FutureEventList fel = new FutureEventList();
+    private double t = 0;
 
     /**
      * Instantiate an object of the simulator class with a given M/M/N (Inf, FIFO)
@@ -31,6 +32,10 @@ public class Simulator {
      * Run the simulation
      */
     public void runSimulation() {
+
+        // kick off first arrival
+        fel.addEvent(new Event(Event.ARRIVAL, arrivalTime.nextArrival()));
+
 
     }
 

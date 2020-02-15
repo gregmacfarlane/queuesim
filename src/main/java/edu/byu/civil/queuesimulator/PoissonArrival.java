@@ -17,6 +17,7 @@ public class PoissonArrival {
     public PoissonArrival(Double lambda, Random r) {
         log.info("Creating new random event distribution with rate " + lambda);
         this.lambda = lambda;
+        this.r = r;
     }
 
     /**
