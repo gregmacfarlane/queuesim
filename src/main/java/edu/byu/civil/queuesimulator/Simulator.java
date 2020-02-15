@@ -11,6 +11,7 @@ public class Simulator {
     private PoissonArrival arrivalTime;
     private PoissonArrival serviceTime;
 
+    private FutureEventList fel = new FutureEventList();
 
     /**
      * Instantiate an object of the simulator class with a given M/M/N (Inf, FIFO)
