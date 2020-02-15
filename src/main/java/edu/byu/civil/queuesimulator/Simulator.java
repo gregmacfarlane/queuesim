@@ -2,8 +2,14 @@ package edu.byu.civil.queuesimulator;
 
 import org.apache.log4j.Logger;
 
+import java.util.Random;
+
 public class Simulator {
     private static Logger log = Logger.getLogger(Simulator.class);
+
+    private Random r = new Random(145);
+    private PoissonArrival arrivalTime;
+    private PoissonArrival serviceTime;
 
 
     /**
@@ -13,6 +19,10 @@ public class Simulator {
      * @param N Number of service counters
      */
     public Simulator(double lambda, double mu, int N){
+        log.info("Creating arrival distribution");
+        arrivalTime = new PoissonArrival(lambda, r);
+        log.info("Creating service distribution");
+        serviceTime = new PoissonArrival(mu, r);
 
     }
 
