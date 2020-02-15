@@ -38,7 +38,7 @@ public class FutureEventList {
      */
     public Event nextEvent() {
         Event firstEvent = eventVector.elementAt(0);
-
+        eventVector.remove(0);
         return firstEvent;
     }
 

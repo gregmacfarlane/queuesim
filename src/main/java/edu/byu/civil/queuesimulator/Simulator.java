@@ -13,6 +13,7 @@ public class Simulator {
 
     private FutureEventList fel = new FutureEventList();
     private double t = 0;
+    private double endtime = 50;
 
     /**
      * Instantiate an object of the simulator class with a given M/M/N (Inf, FIFO)
@@ -34,7 +35,29 @@ public class Simulator {
     public void runSimulation() {
 
         // kick off first arrival
-        fel.addEvent(new Event(Event.ARRIVAL, arrivalTime.nextArrival()));
+        fel.addEvent(new Event(Event.ARRIVAL, t + arrivalTime.nextArrival()));
+
+        // Run through event list
+        while(t < endtime) {
+            Event e = fel.nextEvent();
+            t = e.getTime();
+
+            switch (e.getType()) {
+                case Event.ARRIVAL: {
+                    // Create a customer and add them to the counter or the queue
+
+                    // Schedule next arrival
+                    fel.addEvent(new Event(Event.ARRIVAL, t + arrivalTime.nextArrival()));
+                    break;
+                }
+                // Remove customer from counter, grab next customer in queue
+                case Event.DEPARTURE: {
+
+                    break;
+                }
+
+            }
+        }
 
 
     }
