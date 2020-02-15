@@ -13,7 +13,7 @@ public class Simulator {
 
     private FutureEventList fel = new FutureEventList();
     private double t = 0;
-    private double endtime = 50;
+    private double endtime = 300;
 
     private ServiceCenter sc;
 
@@ -71,7 +71,7 @@ public class Simulator {
     // When we run the class, this gets executed.
     public static void main(String[] args) {
         log.info("Beginning a new BYU Queuesim");
-        Simulator simulator = new Simulator(5, 10, 1);
+        Simulator simulator = new Simulator(75/3600., 150/3600., 1);
         simulator.runSimulation();
         log.info("Ending BYU Queuesim");
 
