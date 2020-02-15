@@ -45,6 +45,7 @@ public class Simulator {
             switch (e.getType()) {
                 case Event.ARRIVAL: {
                     // Create a customer and add them to the counter or the queue
+                    Customer customer = new Customer(serviceTime.nextArrival());
 
                     // Schedule next arrival
                     fel.addEvent(new Event(Event.ARRIVAL, t + arrivalTime.nextArrival()));
