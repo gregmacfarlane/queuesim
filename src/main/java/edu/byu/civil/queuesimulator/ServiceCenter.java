@@ -25,12 +25,13 @@ public class ServiceCenter {
         // check servers to see if they are engaged
         for(Server s : serverHashMap.values()) {
             if(!s.isServing()) {
+                log.info("Customer " + customer.getCustomerID() + " handled by server " +
+                        s.getServerId());
                 s.engage();
                 served = true;
                 e = new Event(Event.DEPARTURE, time + customer.getJobLength());
                 customer.setServerId(s.getServerId());
-                log.info("Customer " + customer.getCustomerID() + " handled by server " +
-                        s.getServerId());
+                e.setCustomer(customer);
                 break;
             }
         }
@@ -46,10 +47,25 @@ public class ServiceCenter {
         queue.add(customer);
     }
 
-    public Event processDeparture() {
-        Event e = null;
+    public Event processDeparture(Event e, double time) {
+        Customer customer = e.getCustomer();
 
-        return e;
+        log.info("Customer " + customer.getCustomerID() + " departs server " + customer.getServerId() + " at " + time);
+
+        Server s = serverHashMap.get(customer.getServerId());
+        s.release();
+
+
+        // check to see if there is a customer waiting in the queue
+        Event nextDeparture = null;
+        if(queue.size() != 0) {
+            Customer nextCustomer = queue.poll();
+            s.engage();
+            nextDeparture = new Event(Event.DEPARTURE, time + nextCustomer.getJobLength());
+            nextDeparture.setCustomer(nextCustomer);
+        }
+
+        return nextDeparture;
     }
 
 }

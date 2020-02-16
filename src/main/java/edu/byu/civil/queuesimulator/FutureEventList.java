@@ -21,15 +21,17 @@ public class FutureEventList {
      * @param event
      */
     public void addEvent(Event event) {
-        int insertIndex = 0;
+        if(event != null){
+            int insertIndex = 0;
 
-        // Find the right place to add the event
-        while(insertIndex < eventVector.size()) {
-            Event e = eventVector.elementAt(insertIndex);
-            if (e.getTime() > event.getTime()) break;
-            insertIndex++;
+            // Find the right place to add the event
+            while(insertIndex < eventVector.size()) {
+                Event e = eventVector.elementAt(insertIndex);
+                if (e.getTime() > event.getTime()) break;
+                insertIndex++;
+            }
+            eventVector.insertElementAt(event, insertIndex);
         }
-        eventVector.insertElementAt(event, insertIndex);
     }
 
     /**
@@ -41,7 +43,6 @@ public class FutureEventList {
         eventVector.remove(0);
         return firstEvent;
     }
-
 
 
 }

@@ -37,8 +37,12 @@ public class Simulator {
      */
     public void runSimulation() {
 
-        // kick off first arrival
-        fel.addEvent(new Event(Event.ARRIVAL, t + arrivalTime.nextArrival()));
+        // Create an arrival event for the first customer
+        Customer customer = new Customer(serviceTime.nextArrival());
+        Event firstEvent = new Event(Event.ARRIVAL, t + arrivalTime.nextArrival());
+        firstEvent.setCustomer(customer);
+        fel.addEvent(firstEvent);
+
 
         // Run through event list
         while(t < endtime) {
@@ -48,18 +52,18 @@ public class Simulator {
             switch (e.getType()) {
                 case Event.ARRIVAL: {
                     // Create a customer and add them to the counter or the queue
-                    Customer customer = new Customer(serviceTime.nextArrival());
-                    sc.processArrival(customer, t);
+                    fel.addEvent(sc.processArrival(e.getCustomer(), t));
 
-
-                    // Schedule next arrival
-                    fel.addEvent(new Event(Event.ARRIVAL, t + arrivalTime.nextArrival()));
+                    // Schedule the next customer's arrival
+                    Event nextArrivalEvent = new Event(Event.ARRIVAL, t + arrivalTime.nextArrival());
+                    Customer nextCustomer = new Customer(serviceTime.nextArrival());
+                    nextArrivalEvent.setCustomer(nextCustomer);
+                    fel.addEvent(nextArrivalEvent);
                     break;
                 }
                 // Remove customer from counter, grab next customer in queue
                 case Event.DEPARTURE: {
-                    sc.processDeparture();
-
+                    fel.addEvent(sc.processDeparture(e, t));
                     break;
                 }
 

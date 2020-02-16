@@ -11,7 +11,7 @@ public class Event {
 
     protected int type;
     protected double time;
-    protected int customerId;
+    protected Customer customer;
 
     public Event(int type, double time) {
         this.type = type;
@@ -29,5 +29,13 @@ public class Event {
 
     public double getTime() {
         return time;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 }
