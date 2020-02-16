@@ -49,6 +49,7 @@ public class Simulator {
                 case Event.ARRIVAL: {
                     // Create a customer and add them to the counter or the queue
                     Customer customer = new Customer(serviceTime.nextArrival());
+                    sc.processArrival(customer, t);
 
 
                     // Schedule next arrival
@@ -57,6 +58,7 @@ public class Simulator {
                 }
                 // Remove customer from counter, grab next customer in queue
                 case Event.DEPARTURE: {
+                    sc.processDeparture();
 
                     break;
                 }

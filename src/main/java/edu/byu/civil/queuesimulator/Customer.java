@@ -16,5 +16,13 @@ public class Customer {
         this.jobLength = jobLength;
         log.info("Customer " + customerID + " created with job length " + jobLength);
     }
+
+    public double getJobLength() {
+        return jobLength;
+    }
+
+    public int getCustomerID() {
+       return customerID;
+    }
 }
 
