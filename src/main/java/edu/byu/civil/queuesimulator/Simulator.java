@@ -13,7 +13,7 @@ public class Simulator {
 
     private FutureEventList fel = new FutureEventList();
     private double t = 0;
-    private double endtime = 3600;
+    private double endtime = 5;
 
     private ServiceCenter sc;
 
@@ -72,8 +72,9 @@ public class Simulator {
 
     public void printStats() {
         log.info("====== SIMULATION STATS ==========");
-        log.info("Maximum queue size:" + sc.getMaxQueueLength());
-
+        log.info("Maximum queue size: " + sc.getMaxQueueLength());
+        log.info("Average time in system: " + sc.getAverageSystemTime());
+        log.info("Average time in queue for queued customers: " + sc.getAverageQueueTime());
         log.info("====== SIMULATION STATS ==========");
     }
 
@@ -81,8 +82,8 @@ public class Simulator {
     // When we run the class, this gets executed.
     public static void main(String[] args) {
         log.info("Beginning a new BYU Queuesim");
-        Double lambda = Double.valueOf(args[0]) / 3600.;
-        Double mu     = Double.valueOf(args[1]) / 3600.;
+        Double lambda = Double.valueOf(args[0]);
+        Double mu     = Double.valueOf(args[1]);
         Integer N     = Integer.valueOf(args[2]);
 
 

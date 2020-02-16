@@ -13,6 +13,11 @@ public class ServiceCenter {
     private HashMap<Integer, Server> serverHashMap = new HashMap<>();
 
     private int maxQueueLength = 0;
+    private int customersServed = 0;
+    private int customersArrived = 0;
+    private int customersQueued = 0;
+    private double totalTimeInSytem = 0;
+    private double totalQueueTime = 0;
 
     public ServiceCenter(Integer servers) {
         for(int i = 0; i < servers; i++) {
@@ -21,8 +26,10 @@ public class ServiceCenter {
     }
 
     public Event processArrival(Customer customer, double time) {
+        customersArrived++;
         Event e = null;
         boolean served = false;
+        customer.setArrivalTime(time);
 
         // check servers to see if they are engaged
         for(Server s : serverHashMap.values()) {
@@ -39,14 +46,16 @@ public class ServiceCenter {
         }
 
         if(!served) {
-            addToQueue(customer);
+            addToQueue(customer, time);
         }
         return e;
     }
 
-    private void addToQueue(Customer customer) {
+    private void addToQueue(Customer customer, double time) {
         log.info("Customer " + customer.getCustomerID() + " added to queue");
+        customer.setQueuedTime(time);
         queue.add(customer);
+        customersQueued++;
         if(queue.size() > maxQueueLength) maxQueueLength = queue.size();
     }
 
@@ -54,15 +63,19 @@ public class ServiceCenter {
         Customer customer = e.getCustomer();
 
         log.info("Customer " + customer.getCustomerID() + " departs server " + customer.getServerId() + " at " + time);
-
         Server s = serverHashMap.get(customer.getServerId());
         s.release();
+
+        // update stats
+        customersServed++;
+        totalTimeInSytem = totalTimeInSytem + (time - customer.getArrivalTime());
 
 
         // check to see if there is a customer waiting in the queue
         Event nextDeparture = null;
         if(queue.size() != 0) {
             Customer nextCustomer = queue.poll();
+            totalQueueTime = totalQueueTime + (time - nextCustomer.getQueuedTime());
             s.engage();
             nextDeparture = new Event(Event.DEPARTURE, time + nextCustomer.getJobLength());
             nextDeparture.setCustomer(nextCustomer);
@@ -73,5 +86,13 @@ public class ServiceCenter {
 
     public int getMaxQueueLength() {
         return maxQueueLength;
+    }
+
+    public double getAverageSystemTime() {
+       return totalTimeInSytem / customersServed;
+    }
+
+    public double getAverageQueueTime() {
+        return totalQueueTime / customersQueued;
     }
 }

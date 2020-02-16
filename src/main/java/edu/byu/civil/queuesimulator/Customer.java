@@ -10,12 +10,19 @@ public class Customer {
     private int customerID;
     private int serverId;
 
+    private double arrivalTime;
+    private double queuedTime;
+
     public Customer(double jobLength){
         this.customerID = nextID;
         nextID++;
 
         this.jobLength = jobLength;
         log.info("Customer " + customerID + " created with job length " + jobLength);
+    }
+
+    public void setArrivalTime(double arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     public double getJobLength() {
@@ -32,6 +39,18 @@ public class Customer {
 
     public int getServerId() {
         return serverId;
+    }
+
+    public double getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setQueuedTime(double queuedTime) {
+        this.queuedTime = queuedTime;
+    }
+
+    public double getQueuedTime() {
+        return queuedTime;
     }
 }
 

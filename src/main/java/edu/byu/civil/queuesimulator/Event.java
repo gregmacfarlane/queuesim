@@ -20,7 +20,7 @@ public class Event {
         String etype = "Arrival";
         if (type == DEPARTURE) etype = "Departure";
 
-        log.info(etype + " event created" + " at time " + time);
+        log.trace(etype + " event created" + " at time " + time);
     }
 
     public int getType() {
