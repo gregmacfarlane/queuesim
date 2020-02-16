@@ -73,12 +73,21 @@ public class Simulator {
 
     }
 
+    public void printStats() {
+        log.info("====== SIMULATION STATS ==========");
+        log.info("Maximum queue size:" + sc.getMaxQueueLength());
+
+        log.info("====== SIMULATION STATS ==========");
+    }
+
 
     // When we run the class, this gets executed.
     public static void main(String[] args) {
         log.info("Beginning a new BYU Queuesim");
         Simulator simulator = new Simulator(75/3600., 150/3600., 1);
         simulator.runSimulation();
+        simulator.printStats();
+
         log.info("Ending BYU Queuesim");
 
     }

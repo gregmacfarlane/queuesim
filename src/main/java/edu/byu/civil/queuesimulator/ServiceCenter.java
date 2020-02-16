@@ -12,6 +12,8 @@ public class ServiceCenter {
     private Queue<Customer> queue = new LinkedList<>();
     private HashMap<Integer, Server> serverHashMap = new HashMap<>();
 
+    private int maxQueueLength = 0;
+
     public ServiceCenter(Integer servers) {
         for(int i = 0; i < servers; i++) {
             serverHashMap.put(i, new Server(i)) ;
@@ -45,6 +47,7 @@ public class ServiceCenter {
     private void addToQueue(Customer customer) {
         log.info("Customer " + customer.getCustomerID() + " added to queue");
         queue.add(customer);
+        if(queue.size() > maxQueueLength) maxQueueLength = queue.size();
     }
 
     public Event processDeparture(Event e, double time) {
@@ -68,4 +71,7 @@ public class ServiceCenter {
         return nextDeparture;
     }
 
+    public int getMaxQueueLength() {
+        return maxQueueLength;
+    }
 }
