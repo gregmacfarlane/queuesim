@@ -13,7 +13,7 @@ public class Simulator {
 
     private FutureEventList fel = new FutureEventList();
     private double t = 0;
-    private double endtime = 300;
+    private double endtime = 3600;
 
     private ServiceCenter sc;
 
@@ -66,11 +66,8 @@ public class Simulator {
                     fel.addEvent(sc.processDeparture(e, t));
                     break;
                 }
-
             }
         }
-
-
     }
 
     public void printStats() {
@@ -84,7 +81,12 @@ public class Simulator {
     // When we run the class, this gets executed.
     public static void main(String[] args) {
         log.info("Beginning a new BYU Queuesim");
-        Simulator simulator = new Simulator(75/3600., 150/3600., 1);
+        Double lambda = Double.valueOf(args[0]) / 3600.;
+        Double mu     = Double.valueOf(args[1]) / 3600.;
+        Integer N     = Integer.valueOf(args[2]);
+
+
+        Simulator simulator = new Simulator(lambda, mu, N);
         simulator.runSimulation();
         simulator.printStats();
 
