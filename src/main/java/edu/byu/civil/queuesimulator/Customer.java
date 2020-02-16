@@ -8,6 +8,7 @@ public class Customer {
     double jobLength;
     private static int nextID = 1;
     private int customerID;
+    private int serverId;
 
     public Customer(double jobLength){
         this.customerID = nextID;
@@ -23,6 +24,14 @@ public class Customer {
 
     public int getCustomerID() {
        return customerID;
+    }
+
+    public void setServerId(int serverId) {
+        this.serverId = serverId;
+    }
+
+    public int getServerId() {
+        return serverId;
     }
 }
 

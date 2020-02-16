@@ -11,6 +11,7 @@ public class Event {
 
     protected int type;
     protected double time;
+    protected int customerId;
 
     public Event(int type, double time) {
         this.type = type;

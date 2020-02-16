@@ -28,6 +28,7 @@ public class ServiceCenter {
                 s.engage();
                 served = true;
                 e = new Event(Event.DEPARTURE, time + customer.getJobLength());
+                customer.setServerId(s.getServerId());
                 log.info("Customer " + customer.getCustomerID() + " handled by server " +
                         s.getServerId());
                 break;
