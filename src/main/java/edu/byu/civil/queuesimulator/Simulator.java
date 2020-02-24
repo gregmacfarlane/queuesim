@@ -72,6 +72,9 @@ public class Simulator {
 
     public void printStats() {
         log.info("====== SIMULATION STATS ==========");
+        log.info("Total Arrived: " + sc.getCustomersArrived());
+        log.info("Total Served: " + sc.getCustomersServed());
+        log.info("Total Queued: " + sc.getCustomersQueued());
         log.info("Maximum queue size: " + sc.getMaxQueueLength());
         log.info("Average time in system: " + sc.getAverageSystemTime());
         log.info("Average time in queue for queued customers: " + sc.getAverageQueueTime());

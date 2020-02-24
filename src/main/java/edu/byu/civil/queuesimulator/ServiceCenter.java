@@ -55,6 +55,7 @@ public class ServiceCenter {
         log.info("Customer " + customer.getCustomerID() + " added to queue");
         customer.setQueuedTime(time);
         queue.add(customer);
+        log.info("Queue length: " + queue.size());
         customersQueued++;
         if(queue.size() > maxQueueLength) maxQueueLength = queue.size();
     }
@@ -94,5 +95,17 @@ public class ServiceCenter {
 
     public double getAverageQueueTime() {
         return totalQueueTime / customersQueued;
+    }
+
+    public int getCustomersArrived() {
+        return customersArrived;
+    }
+
+    public int getCustomersQueued() {
+        return customersQueued;
+    }
+
+    public int getCustomersServed() {
+        return customersServed;
     }
 }
