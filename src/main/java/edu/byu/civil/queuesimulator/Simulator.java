@@ -59,6 +59,7 @@ public class Simulator {
                     Customer nextCustomer = new Customer(serviceTime.nextArrival());
                     nextArrivalEvent.setCustomer(nextCustomer);
                     fel.addEvent(nextArrivalEvent);
+
                     break;
                 }
                 // Remove customer from counter, grab next customer in queue
@@ -78,6 +79,10 @@ public class Simulator {
         log.info("Maximum queue size: " + sc.getMaxQueueLength());
         log.info("Average time in system: " + sc.getAverageSystemTime());
         log.info("Average time in queue for queued customers: " + sc.getAverageQueueTime());
+        log.info("Time at queue length 0: " + sc.getTimeatQueueLength(0));
+        log.info("Time at queue length 1: " + sc.getTimeatQueueLength(1));
+        log.info("Time at queue length 2: " + sc.getTimeatQueueLength(2));
+        log.info("Time at queue length 3: " + sc.getTimeatQueueLength(3));
         log.info("====== SIMULATION STATS ==========");
     }
 

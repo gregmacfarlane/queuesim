@@ -2,6 +2,7 @@ package edu.byu.civil.queuesimulator;
 
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -16,13 +17,18 @@ public class ServiceCenter {
     private int customersServed = 0;
     private int customersArrived = 0;
     private int customersQueued = 0;
-    private double totalTimeInSytem = 0;
+    private double totalTimeInSystem = 0;
     private double totalQueueTime = 0;
+
+    private HashMap<Integer, Double> timeatQueueLength = new HashMap<>();
+    private double lastTimeQueueChanged = 0;
 
     public ServiceCenter(Integer servers) {
         for(int i = 0; i < servers; i++) {
             serverHashMap.put(i, new Server(i)) ;
         }
+
+        timeatQueueLength.put(0, 0.0);
     }
 
     public Event processArrival(Customer customer, double time) {
@@ -58,19 +64,29 @@ public class ServiceCenter {
         log.info("Queue length: " + queue.size());
         customersQueued++;
         if(queue.size() > maxQueueLength) maxQueueLength = queue.size();
-    }
+
+
+        // check to see if the new queue length is already included
+        if(!timeatQueueLength.keySet().contains(queue.size())) {
+            timeatQueueLength.put(queue.size(), 0.0);
+        }
+
+        // update previous queue length time
+        Double previousTime = timeatQueueLength.get(queue.size() - 1);
+        Double newTime = previousTime + (time - lastTimeQueueChanged);
+        timeatQueueLength.put(queue.size() - 1, newTime);
+
+        lastTimeQueueChanged = time;
+   }
 
     public Event processDeparture(Event e, double time) {
         Customer customer = e.getCustomer();
-
         log.info("Customer " + customer.getCustomerID() + " departs server " + customer.getServerId() + " at " + time);
         Server s = serverHashMap.get(customer.getServerId());
         s.release();
-
         // update stats
         customersServed++;
-        totalTimeInSytem = totalTimeInSytem + (time - customer.getArrivalTime());
-
+        totalTimeInSystem = totalTimeInSystem + (time - customer.getArrivalTime());
 
         // check to see if there is a customer waiting in the queue
         Event nextDeparture = null;
@@ -80,6 +96,14 @@ public class ServiceCenter {
             s.engage();
             nextDeparture = new Event(Event.DEPARTURE, time + nextCustomer.getJobLength());
             nextDeparture.setCustomer(nextCustomer);
+            nextCustomer.setServerId(s.getServerId());
+
+            // update previous queue length time
+            Double previousTime = timeatQueueLength.get(queue.size() + 1);
+            Double newTime = previousTime + (time - lastTimeQueueChanged);
+            timeatQueueLength.put(queue.size() + 1, newTime);
+
+            lastTimeQueueChanged = time;
         }
 
         return nextDeparture;
@@ -90,7 +114,7 @@ public class ServiceCenter {
     }
 
     public double getAverageSystemTime() {
-       return totalTimeInSytem / customersServed;
+       return totalTimeInSystem / customersServed;
     }
 
     public double getAverageQueueTime() {
@@ -107,5 +131,9 @@ public class ServiceCenter {
 
     public int getCustomersServed() {
         return customersServed;
+    }
+
+    public Double getTimeatQueueLength(Integer index) {
+        return timeatQueueLength.get(index);
     }
 }

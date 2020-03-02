@@ -4,8 +4,8 @@ public class Server {
     boolean serving = false;
     int id;
     
-    public Server(int i) {
-        id = i;
+    public Server(int id) {
+        this.id = id;
     }
     
     public void engage() {
